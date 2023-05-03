@@ -13,7 +13,9 @@
   <button id="copyButton">Copy to Clipboard</button>
   <p id="message"></p>
 
+  <video id="localVideo" autoplay playsinline></video>
   <script>
+    const localVideo = document.getElementById('localVideo');
     const offerInput = document.getElementById('offerInput');
     const acceptOfferButton = document.getElementById('acceptOfferButton');
     const answerText = document.getElementById('answerText');
@@ -35,11 +37,15 @@
         peerConnection = new RTCPeerConnection({iceServers: [{urls: 'stun:stun.l.google.com:19302'}]});
 
         peerConnection.onicecandidate = (event) => {
+          console.log('icecandidate event:', event);
           if (event.candidate === null) {
             answerText.value = JSON.stringify(peerConnection.localDescription);
           }
         };
 
+        peerConnection.ontrack = (event) => {
+          localVideo.srcObject = event.streams[0];
+        };
         const remoteOffer = new RTCSessionDescription(JSON.parse(offerInput.value));
         await peerConnection.setRemoteDescription(remoteOffer);
 

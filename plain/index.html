@@ -13,6 +13,7 @@
   <textarea id="answerInput" rows="10" cols="50" placeholder="Paste answer text here"></textarea>
   <button id="acceptAnswerButton">Accept Answer</button>
   <p id="message"></p>
+  <video id="localVideo" autoplay playsinline></video>
 
   <script>
     const startButton = document.getElementById('startButton');
@@ -21,6 +22,7 @@
     const answerInput = document.getElementById('answerInput');
     const acceptAnswerButton = document.getElementById('acceptAnswerButton');
     const message = document.getElementById('message');
+    const localVideo = document.getElementById('localVideo');
 
     let peerConnection;
 
@@ -29,11 +31,18 @@
     acceptAnswerButton.addEventListener('click', acceptAnswer);
 
     async function createOffer() {
-      peerConnection = new RTCPeerConnection({iceServers: [{urls: 'stun:stun.l.google.com:19302'}]});
+
+      const stream = await navigator.mediaDevices.getUserMedia({video: true, audio: false});
+      localVideo.srcObject = stream;
+      console.log('Creating offer');
+      peerConnection = new RTCPeerConnection({ iceServers: [{ urls: 'stun:stun.l.google.com:19302' }] });
+      stream.getTracks().forEach(track => peerConnection.addTrack(track, stream));
+
 
       peerConnection.onicecandidate = (event) => {
         if (event.candidate === null) {
           offerText.value = JSON.stringify(peerConnection.localDescription);
+          console.log('Offer created');
         }
       };
 
