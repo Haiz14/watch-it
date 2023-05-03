@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Receive WebRTC Offer</title>
+  <script src="webrtc.js"></script>
+</head>
+<body>
+  <h1>Receive WebRTC Offer</h1>
+  <textarea id="offerInput" rows="10" cols="50" placeholder="Paste offer text here"></textarea>
+  <button id="acceptButton">Accept Connection</button>
+  <textarea id="answerText" rows="10" cols="50" readonly></textarea>
+  <button id="copyButton">Copy to Clipboard</button>
+  <p id="message"></p>
+
+  <script>
+    // You can move this code to webrtc.js for better separation of concerns
+    const offerInput = document.getElementById('offerInput');
+    const acceptButton = document.getElementById('acceptButton');
+    const answerText = document.getElementById('answerText');
+    const copyButton = document.getElementById('copyButton');
+    const message = document.getElementById('message');
+
+    let peerConnection;
+
+    acceptButton.addEventListener('click', acceptConnection);
+    copyButton.addEventListener('click', copyToClipboard);
+
+    async function acceptConnection() {
+      // Your WebRTC accept offer logic goes here
+    }
+
+    function copyToClipboard() {
+      answerText.select();
+      document.execCommand('copy');
+    }
+  </script>
+	<a href="./">/</a>
+</body>
+</html>
+
