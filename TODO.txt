@@ -1,2 +1,7 @@
 Watch phone camera over other device
-  15 mins : use savarunan/serverless-webrtc 
+  - simple web rtc connection establishment
+  - video camera
+  - port to react
+  - add backend support to react
+  - create backend
+

@@ -1,0 +1,7 @@
+- skeleton create offer
+  - button to create offer
+	- copy offer
+	- accept amswer
+- remote.html
+ - accept offer
+ - create answer

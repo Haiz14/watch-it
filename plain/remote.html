@@ -3,32 +3,54 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Receive WebRTC Offer</title>
-  <script src="webrtc.js"></script>
+  <title>Remote - Accept WebRTC Offer</title>
 </head>
 <body>
-  <h1>Receive WebRTC Offer</h1>
+  <h1>Accept WebRTC Offer</h1>
   <textarea id="offerInput" rows="10" cols="50" placeholder="Paste offer text here"></textarea>
-  <button id="acceptButton">Accept Connection</button>
+  <button id="acceptOfferButton">Accept Offer</button>
   <textarea id="answerText" rows="10" cols="50" readonly></textarea>
   <button id="copyButton">Copy to Clipboard</button>
   <p id="message"></p>
 
   <script>
-    // You can move this code to webrtc.js for better separation of concerns
     const offerInput = document.getElementById('offerInput');
-    const acceptButton = document.getElementById('acceptButton');
+    const acceptOfferButton = document.getElementById('acceptOfferButton');
     const answerText = document.getElementById('answerText');
     const copyButton = document.getElementById('copyButton');
     const message = document.getElementById('message');
 
     let peerConnection;
 
-    acceptButton.addEventListener('click', acceptConnection);
+    acceptOfferButton.addEventListener('click', acceptOffer);
     copyButton.addEventListener('click', copyToClipboard);
 
-    async function acceptConnection() {
-      // Your WebRTC accept offer logic goes here
+    async function acceptOffer() {
+      if (!offerInput.value) {
+        message.textContent = 'Please enter an offer text';
+        return;
+      }
+
+      try {
+        peerConnection = new RTCPeerConnection({iceServers: [{urls: 'stun:stun.l.google.com:19302'}]});
+
+        peerConnection.onicecandidate = (event) => {
+          if (event.candidate === null) {
+            answerText.value = JSON.stringify(peerConnection.localDescription);
+          }
+        };
+
+        const remoteOffer = new RTCSessionDescription(JSON.parse(offerInput.value));
+        await peerConnection.setRemoteDescription(remoteOffer);
+
+        const answer = await peerConnection.createAnswer();
+        await peerConnection.setLocalDescription(answer);
+
+        message.textContent = 'Offer accepted and answer created';
+      } catch (error) {
+        message.textContent = 'Failed to accept offer';
+        console.error(error);
+      }
     }
 
     function copyToClipboard() {
@@ -36,7 +58,5 @@
       document.execCommand('copy');
     }
   </script>
-	<a href="./">/</a>
 </body>
 </html>
-
