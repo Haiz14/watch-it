@@ -14,6 +14,7 @@
   <p id="message"></p>
 
   <video id="localVideo" autoplay playsinline></video>
+
   <script>
     const localVideo = document.getElementById('localVideo');
     const offerInput = document.getElementById('offerInput');
@@ -38,21 +39,20 @@
 
         peerConnection.onicecandidate = (event) => {
           console.log('icecandidate event:', event);
-          if (event.candidate === null) {
-            answerText.value = JSON.stringify(peerConnection.localDescription);
-          }
         };
 
         peerConnection.ontrack = (event) => {
           localVideo.srcObject = event.streams[0];
         };
+
         const remoteOffer = new RTCSessionDescription(JSON.parse(offerInput.value));
         await peerConnection.setRemoteDescription(remoteOffer);
 
         const answer = await peerConnection.createAnswer();
         await peerConnection.setLocalDescription(answer);
+        answerText.value = JSON.stringify(peerConnection.localDescription);
 
-        message.textContent = 'Offer accepted and answer created';
+        message.textContent = 'paste the answer, where offer was crewted';
       } catch (error) {
         message.textContent = 'Failed to accept offer';
         console.error(error);

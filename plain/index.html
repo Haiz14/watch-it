@@ -39,18 +39,13 @@
       stream.getTracks().forEach(track => peerConnection.addTrack(track, stream));
 
 
-      peerConnection.onicecandidate = (event) => {
-        if (event.candidate === null) {
-          offerText.value = JSON.stringify(peerConnection.localDescription);
-          console.log('Offer created');
-        }
-      };
-
       try {
         const dataChannel = peerConnection.createDataChannel('textChat');
         const offer = await peerConnection.createOffer();
         await peerConnection.setLocalDescription(offer);
-        message.textContent = 'Offer created';
+        offerText.value = JSON.stringify(peerConnection.localDescription);
+        message.innerHTML = 'Offer created. copy the offer, then Go to <a href="./remote.html">./remote.html</a> and paste the offer there.';
+
       } catch (error) {
         message.textContent = 'Failed to create offer';
         console.error(error);
