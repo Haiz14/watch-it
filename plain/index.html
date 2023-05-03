@@ -4,7 +4,6 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Create WebRTC Offer</title>
-  <script src="webrtc.js"></script>
 </head>
 <body>
   <h1>Create WebRTC Offer</h1>
@@ -12,26 +11,41 @@
   <textarea id="offerText" rows="10" cols="50" readonly></textarea>
   <button id="copyButton">Copy to Clipboard</button>
   <textarea id="answerInput" rows="10" cols="50" placeholder="Paste answer text here"></textarea>
-  <button id="connectButton">Connect</button>
+  <button id="acceptAnswerButton">Accept Answer</button>
   <p id="message"></p>
 
   <script>
-    // You can move this code to webrtc.js for better separation of concerns
     const startButton = document.getElementById('startButton');
     const offerText = document.getElementById('offerText');
     const copyButton = document.getElementById('copyButton');
     const answerInput = document.getElementById('answerInput');
-    const connectButton = document.getElementById('connectButton');
+    const acceptAnswerButton = document.getElementById('acceptAnswerButton');
     const message = document.getElementById('message');
 
     let peerConnection;
 
     startButton.addEventListener('click', createOffer);
     copyButton.addEventListener('click', copyToClipboard);
-    connectButton.addEventListener('click', connect);
+    acceptAnswerButton.addEventListener('click', acceptAnswer);
 
     async function createOffer() {
-      // Your WebRTC create offer logic goes here
+      peerConnection = new RTCPeerConnection({iceServers: [{urls: 'stun:stun.l.google.com:19302'}]});
+
+      peerConnection.onicecandidate = (event) => {
+        if (event.candidate === null) {
+          offerText.value = JSON.stringify(peerConnection.localDescription);
+        }
+      };
+
+      try {
+        const dataChannel = peerConnection.createDataChannel('textChat');
+        const offer = await peerConnection.createOffer();
+        await peerConnection.setLocalDescription(offer);
+        message.textContent = 'Offer created';
+      } catch (error) {
+        message.textContent = 'Failed to create offer';
+        console.error(error);
+      }
     }
 
     function copyToClipboard() {
@@ -39,12 +53,21 @@
       document.execCommand('copy');
     }
 
-    async function connect() {
-      // Your WebRTC connect logic goes here
+    async function acceptAnswer() {
+      if (!answerInput.value) {
+        message.textContent = 'Please enter an answer text';
+        return;
+      }
+
+      try {
+        const remoteAnswer = new RTCSessionDescription(JSON.parse(answerInput.value));
+        await peerConnection.setRemoteDescription(remoteAnswer);
+        message.textContent = 'Answer accepted and connection established';
+      } catch (error) {
+        message.textContent = 'Failed to accept answer';
+        console.error(error);
+      }
     }
   </script>
-	<!-- link to ./connect.html -->
-	<a href="./remote.html">remote</a>
 </body>
 </html>
-
