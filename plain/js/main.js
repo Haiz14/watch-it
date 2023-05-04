@@ -71,6 +71,7 @@ async function start() {
 }
 
 async function call() {
+
   callButton.disabled = true;
   hangupButton.disabled = false;
   console.log('Starting call');
@@ -83,8 +84,10 @@ async function call() {
   if (audioTracks.length > 0) {
     console.log(`Using audio device: ${audioTracks[0].label}`);
   }
-  const configuration = {};
+
+  const configuration = {iceServers: [{urls: 'stun:stun.l.google.com:19302'}]};
   console.log('RTCPeerConnection configuration:', configuration);
+  
   pc1 = new RTCPeerConnection(configuration);
   console.log('Created local peer connection object pc1');
   pc1.addEventListener('icecandidate', e => onIceCandidate(pc1, e));
