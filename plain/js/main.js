@@ -101,6 +101,7 @@ async function call() {
   try {
     console.log('pc1 createOffer start');
     const offer = await pc1.createOffer(offerOptions);
+    navigator.clipboard.writeText(JSON.stringify(offer));
     await onCreateOfferSuccess(offer);
   } catch (e) {
     onCreateSessionDescriptionError(e);
@@ -123,7 +124,10 @@ async function onCreateOfferSuccess(desc) {
 
   console.log('pc2 setRemoteDescription start');
   try {
-    await pc2.setRemoteDescription(desc);
+    const remoteDesc = prompt('Paste remote description');
+    const remoteDescObj = JSON.parse(remoteDesc);
+    console.log(`Offer from pc1\n${remoteDesc.sdp}`);
+    await pc2.setRemoteDescription(remoteDescObj);
     onSetRemoteSuccess(pc2);
   } catch (e) {
     onSetSessionDescriptionError();
