@@ -1,0 +1,12 @@
+0.1
+
+- Create camera
+- view camera in another device -eith peerId as input (peerjs)
+
+
+0.2
+- display alk cameras created so that they can be viewed
+
+0.3
+- add user login
+- only a user can view their cameras

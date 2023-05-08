@@ -1,0 +1,13 @@
+# Major
+- create routes view and create ✔
+- take camera input
+- use peerjs to relay it to view based on peerId inpit
+- setup deployment to github pages
+
+# Minor
+- add contents to index.js
+- add contents to content page
+- add view, create routes to navigator
+
+# Sub
+- add icon
