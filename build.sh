@@ -8,6 +8,6 @@ cd frontend
 npm i
 npm run build
 mv dist/client ../docs
-git add docs
+git add ../docs
 git commit -m "updated site"
 git push
