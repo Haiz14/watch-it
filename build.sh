@@ -3,8 +3,8 @@ git pull
 git checkout release
 git pull
 git merge main
-cd frontend
 rm -rf docs
+cd frontend
 npm i
 npm run build
 mv dist/client ../docs
