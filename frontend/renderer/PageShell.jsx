@@ -19,6 +19,12 @@ function PageShell({ pageContext, children }) {
             <Link className="navitem" href="/about">
               About
             </Link>
+            <Link className="navitem" href="/create">
+              Create
+            </Link>
+            <Link className="navitem" href="/view">
+              View
+            </Link>
           </Sidebar>
           <Content>{children}</Content>
         </Layout>

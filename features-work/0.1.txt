@@ -1,13 +1,24 @@
 # Major
-- create routes view and create ✔
-- take camera input
+- ✔ create routes view and create 
+- ✔ take camera input and display it on start-signalling
+  - ✔  dispay video on start button click
+	- ✔ Start peerjs and add videostream to it
+	- view page, that shows remote on entering peerId
+	- create url based on peerId
+
 - use peerjs to relay it to view based on peerId inpit
-- setup deployment to github pages
 
 # Minor
-- add contents to index.js
-- add contents to content page
-- add view, create routes to navigator
+- ✔ Seperate Components: Find correct way to import compoments
+- add usage instruction to index.js
+- add project-description to content page
+- ✔  add view, create routes to navigator
 
 # Sub
 - add icon
+
+
+# Next ver
+- Allow camera flip
+- Buttons to start stop stream
+- Open and close button to nav sidebar
