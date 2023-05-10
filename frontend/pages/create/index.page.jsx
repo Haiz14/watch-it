@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import Peer from "peerjs";
 import SetupStream from "./SetupStream";
 
 export function Page() {
@@ -7,29 +6,36 @@ export function Page() {
   const [peerId, setPeerId] = useState(null);
   const [peer, setPeer] = useState(null);
   const [streamOn, setStreamOn] = useState(false);
-  const [remotePeerId, setRemotePeerId] = useState("");
 
   useEffect(() => {
-    if (stream) {
-      const newPeer = new Peer();
-      newPeer.on("open", (id) => {
-        console.log("Peer ID:", id);
-        setPeerId(id);
-      });
+    const loadPeerJS = async () => {
+      console.log("Loading PeerJS yo");
+      const { default: Peer } = await import('peerjs');
 
-      newPeer.on("call", (call) => {
-        call.answer(stream);
-      });
+      if (stream) {
+        const newPeer = new Peer();
+        newPeer.on("open", (id) => {
+          console.log("Peer ID:", id);
+          setPeerId(id);
+        });
 
-      setPeer(newPeer);
+        newPeer.on("call", (call) => {
+          call.answer(stream);
+        });
+
+        setPeer(newPeer);
+      }
+
+
+      return () => {
+        if (peer) {
+          peer.destroy();
+        }
+      };
     }
 
-    return () => {
-      if (peer) {
-        peer.destroy();
-      }
-    };
-  }, [stream]);
+    loadPeerJS();
+  }, []);
 
   const handleStartStream = () => {
     setStreamOn(true);
@@ -40,6 +46,7 @@ export function Page() {
   };
 
 
+  // show loading if peerId is not ready
   return (
     <>
       <p>Peer ID: {peerId}</p>
@@ -49,3 +56,4 @@ export function Page() {
     </>
   );
 }
+
