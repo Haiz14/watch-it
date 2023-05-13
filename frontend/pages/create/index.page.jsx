@@ -1,59 +1,103 @@
-import React, { useState, useEffect } from "react";
-import SetupStream from "./SetupStream";
+import React, { useEffect, useRef, useState } from 'react';
 
-export function Page() {
-  const [stream, setStream] = useState(null);
-  const [peerId, setPeerId] = useState(null);
+export { Page };
+
+function Page() {
   const [peer, setPeer] = useState(null);
-  const [streamOn, setStreamOn] = useState(false);
+  const [peerId, setPeerId] = useState('');
+  const [remotePeerId, setRemotePeerId] = useState('');
+  const [conn, setConn] = useState(null);
+  const [localStream, setLocalStream] = useState(null);
+  const [call, setCall] = useState(null);
+  const [isMuted, setIsMuted] = useState(false);
+
+  const localVideo = useRef();
+  const remoteVideo = useRef();
 
   useEffect(() => {
-    const loadPeerJS = async () => {
-      console.log("Loading PeerJS yo");
+    const init = async () => {
+      const stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
+      setLocalStream(stream);
+      localVideo.current.srcObject = stream;
+
       const { default: Peer } = await import('peerjs');
+      const peer = new Peer({ debug: 2 });
+      setPeer(peer);
 
-      if (stream) {
-        const newPeer = new Peer();
-        newPeer.on("open", (id) => {
-          console.log("Peer ID:", id);
-          setPeerId(id);
+      peer.on('open', (id) => {
+        setPeerId(id);
+      });
+
+      peer.on('call', (incomingCall) => {
+        incomingCall.answer(stream);
+        setCall(incomingCall);
+        incomingCall.on('stream', (remoteStream) => {
+          remoteVideo.current.srcObject = remoteStream;
         });
+      });
 
-        newPeer.on("call", (call) => {
-          call.answer(stream);
+      peer.on('connection', (dataConnection) => {
+        setConn(dataConnection);
+        dataConnection.on('data', (data) => {
+          console.log('Received:', data);
         });
+      });
+    };
 
-        setPeer(newPeer);
-      }
-
-
-      return () => {
-        if (peer) {
-          peer.destroy();
-        }
-      };
-    }
-
-    loadPeerJS();
+    init();
   }, []);
 
-  const handleStartStream = () => {
-    setStreamOn(true);
+  const startConnection = () => {
+    const outgoingCall = peer.call(remotePeerId, localStream);
+    setCall(outgoingCall);
+    outgoingCall.on('stream', (remoteStream) => {
+      remoteVideo.current.srcObject = remoteStream;
+    });
+
+    const dataConnection = peer.connect(remotePeerId);
+    setConn(dataConnection);
   };
 
-  const handleStopStream = () => {
-    setStreamOn(false);
+  const endConnection = () => {
+    if (call) {
+      call.close();
+      setCall(null);
+    }
+
+    if (conn) {
+      conn.close();
+      setConn(null);
+    }
+
+    remoteVideo.current.srcObject = null;
   };
 
+  const toggleMute = () => {
+    if (localStream) {
+      remoteVideo.current.srcObject.getAudioTracks()[0].enabled = !isMuted;
+      setIsMuted(!isMuted);
+    }
+  };
 
-  // show loading if peerId is not ready
   return (
-    <>
-      <p>Peer ID: {peerId}</p>
-      <SetupStream setStream={setStream} streamOn={streamOn} />
-      <button onClick={handleStartStream}>Start Stream</button>
-      <button onClick={handleStopStream}>Stop Stream</button>
-    </>
+    <div>
+      <h4>Serverless WebRTC</h4>
+      <p>Your ID: {peerId}</p>
+      <input 
+        type="text" 
+        value={remotePeerId}
+        onChange={(e) => setRemotePeerId(e.target.value)}
+        placeholder="Remote ID"
+      />
+      <button onClick={startConnection}>Start Connection</button>
+      <button onClick={endConnection}>End Connection</button>
+      <button onClick={toggleMute}>{isMuted ? 'Unmute' : 'Mute'}</button>
+      <div>
+        <video ref={localVideo} autoPlay muted style={{ width: '100%', maxHeight: '300px', objectFit: 'contain' }}></video>
+        <video ref={remoteVideo} autoPlay style={{ width: '100%', maxHeight: '300px', objectFit: 'contain' }}></video>
+      </div>
+    </div>
   );
-}
+};
+
 
