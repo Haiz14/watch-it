@@ -4,13 +4,14 @@ Pre
 - ✔ Build Script
 
 0.1.1
-- view camera and remotd on same page
-- use base link to create nav sidebar
+- ✔ view camera and remotd on same page
+- ✔ use base link to create nav sidebar
 
 0.1.2
 
 - create camera Page: displays current camera and a link to view the camera remotely
-- - view camera page (receives remote peerId via queryLink)
+- view camera page (receives remote peerId via queryLink)
+- update readme with build imsyructions
 
 0.1.3
 
