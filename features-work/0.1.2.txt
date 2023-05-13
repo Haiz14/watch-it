@@ -1,0 +1,15 @@
+0.1.2
+
+- create camera Page: displays current camera and a link to view the camera remotely
+
+- view camera page (receives remote peerId via queryLink)
+  - copy create page
+  - remove local video stream
+  - parse remote stream peerId from queryLink ?peerId=<peer-id>
+
+  - try gpt 
+- ✔ update readme with build imsyructions
+  - add simple bash snippet
+
+
+- change base to "/watch-it" before merging
