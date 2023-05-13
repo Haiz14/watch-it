@@ -9,8 +9,13 @@ Pre
 
 0.1.2
 
-- creatd cameraPage
+- create camera Page: displays current camera and a link to view the camera remotely
 - - view camera page (receives remote peerId via queryLink)
+
+0.1.3
+
+- better controls om view amd camera page
+- info on how-to-use om imdex page
 
 0.2.1
 - Database Support: display all cameras created so that they can be viewed by anyone
