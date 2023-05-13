@@ -1,0 +1,1 @@
+import{a as r,F as a,j as e}from"../chunks/chunk-ad3e06ed.js";function o(){return r(a,{children:[e("h1",{children:"About"}),e("p",{children:" Create and view camera on remote devices"})]})}export{o as Page};
