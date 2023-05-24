@@ -5,11 +5,14 @@
 
 ## Roadmap
 0.1.3
-- camera oage
+- view-camera-page: directly connects to peer via share link.
+- add close button to menu
+
 0.1.4
 
-- better controls om view amd camera page
+- better control
 - info on how-to-use om imdex page
+- add open button to menu
 
 0.2.1
 - Database Support: display all cameras created so that they can be viewed by anyone
