@@ -1,19 +1,12 @@
-Pre
-- ✔ Initial-Site: for CI pipeline
-- ✔  Release-Branch: Directly publishes to GH-pages upon push
-- ✔ Build Script
+# Contents:
+ - [Roadmap](#Roadmap)
+ - [Later](#Later)
+ - [Done](#Done)
 
-0.1.1
-- ✔ view camera and remotd on same page
-- ✔ use base link to create nav sidebar
-
-0.1.2
-
-- create camera Page: displays current camera and a link to view the camera remotely
-- view camera page (receives remote peerId via queryLink)
-- update readme with build imsyructions
-
+## Roadmap
 0.1.3
+- camera oage
+0.1.4
 
 - better controls om view amd camera page
 - info on how-to-use om imdex page
@@ -30,3 +23,22 @@ Pre
 
 1
 - polished website
+
+# Later
+~~0.1.2: One-way-web-rtc~~ Moved to later version, 
+- creat-camera-page
+- view camera page
+- ✔update readme with build imsyructions
+
+
+# Done:
+Pre
+- ✔ Initial-Site: for CI pipeline
+- ✔  Release-Branch: Directly publishes to GH-pages upon push
+- ✔ Build Script
+
+0.1.1: Basic Usage
+- ✔ view camera and remotd on same page
+- ✔ use base link to create nav sidebar
+
+
