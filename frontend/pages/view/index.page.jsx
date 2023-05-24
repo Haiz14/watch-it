@@ -42,6 +42,14 @@ function Page() {
           console.log('Received:', data);
         });
       });
+
+      // Check if remotePeerId is present in the query string
+      const urlParams = new URLSearchParams(window.location.search);
+      const remoteId = urlParams.get('peerId');
+      if (remoteId) {
+        setRemotePeerId(remoteId);
+        startConnection();
+      }
     };
 
     init();
@@ -82,6 +90,7 @@ function Page() {
   return (
     <div>
       <h4>Serverless WebRTC</h4>
+      <h5>Click connect</h5>
       <p>Your ID: {peerId}</p>
       <input 
         type="text" 
@@ -95,9 +104,8 @@ function Page() {
       <div>
         <video ref={localVideo} autoPlay muted style={{ width: '100%', maxHeight: '300px', objectFit: 'contain' }}></video>
         <video ref={remoteVideo} autoPlay style={{ width: '100%', maxHeight: '300px', objectFit: 'contain' }}></video>
-      </div>
-    </div>
-  );
-};
-
+</div>
+</div>
+);
+}
 
