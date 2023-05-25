@@ -1,36 +1,51 @@
-import React from 'react'
-import logo from './logo.svg'
-import './PageShell.css'
-import { PageContextProvider } from './usePageContext'
-import { Link } from './Link'
+import React, { useState } from 'react';
+import logo from './logo.svg';
+import './PageShell.css';
+import { PageContextProvider } from './usePageContext';
+import { Link } from './Link';
 
-export { PageShell }
+export { PageShell };
 
 function PageShell({ pageContext, children }) {
+  const [displaySidebar, setDisplaySidebar] = useState(true);
+
+  const handleSidebarButtonClick = () => {
+    setDisplaySidebar(false);
+  };
+
+  const handleToggleButtonClick = () => {
+    setDisplaySidebar(true);
+  };
+
   return (
     <React.StrictMode>
       <PageContextProvider pageContext={pageContext}>
-        <Layout>
-          <Sidebar>
-            <Logo />
-            <Link className="navitem" href="/">
-              Home
-            </Link>
-            <Link className="navitem" href="/about">
-              About
-            </Link>
-            <Link className="navitem" href="/create">
-              Create
-            </Link>
-            <Link className="navitem" href="/view">
-              View
-            </Link>
-          </Sidebar>
-          <Content>{children}</Content>
-        </Layout>
+          <Layout>
+        {displaySidebar ? (
+            <Sidebar>
+              <button onClick={handleSidebarButtonClick}>X</button>
+              <Logo />
+              <Link className="navitem" href="/">
+                Home
+              </Link>
+              <Link className="navitem" href="/about">
+                About
+              </Link>
+              <Link className="navitem" href="/create">
+                Create
+              </Link>
+              <Link className="navitem" href="/view">
+                View
+              </Link>
+            </Sidebar>
+        ) : (
+          <ToggleButton onClick={handleToggleButtonClick} />
+        )}
+            <Content>{children}</Content>
+          </Layout>
       </PageContextProvider>
     </React.StrictMode>
-  )
+  );
 }
 
 function Layout({ children }) {
@@ -44,7 +59,7 @@ function Layout({ children }) {
     >
       {children}
     </div>
-  )
+  );
 }
 
 function Sidebar({ children }) {
@@ -61,7 +76,7 @@ function Sidebar({ children }) {
     >
       {children}
     </div>
-  )
+  );
 }
 
 function Content({ children }) {
@@ -76,7 +91,7 @@ function Content({ children }) {
     >
       {children}
     </div>
-  )
+  );
 }
 
 function Logo() {
@@ -91,5 +106,23 @@ function Logo() {
         <img src={logo} height={64} width={64} alt="logo" />
       </a>
     </div>
-  )
+  );
 }
+
+function ToggleButton({ onClick }) {
+  return (
+    <div
+      style={{
+        position: 'fixed',
+        top: 0,
+        left: 0,
+        zIndex: 9999,
+        backgroundColor: '#fff',
+        padding: '10px'
+      }}
+    >
+      <button onClick={onClick}>O</button>
+    </div>
+  );
+}
+

@@ -79,10 +79,13 @@ function Page() {
     }
   };
 
+  const viewLink = `/view/?peerId=${peerId}`;
+
   return (
     <div>
       <h4>Serverless WebRTC</h4>
       <p>Your ID: {peerId}</p>
+      <a href={viewLink}>Go to View Page</a>
       <input 
         type="text" 
         value={remotePeerId}
@@ -99,5 +102,4 @@ function Page() {
     </div>
   );
 };
-
 
