@@ -28,10 +28,13 @@
 - polished website
 
 # Later
+
+- seperate peerConnection component
 ~~0.1.2: One-way-web-rtc~~ Moved to later version, 
 - creat-camera-page
 - view camera page
 - ✔update readme with build imsyructions
+
 
 
 # Done:
