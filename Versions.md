@@ -21,7 +21,7 @@
 - only a user can view their cameras
 
 0.3
-- UI Adjustments
+- Add style to create pafe
 
 1
 - polished website
@@ -30,10 +30,10 @@
 
 - 
 - Code Cleaning: Seperate peerConnection component
-~~0.1.2: One-way-web-rtc~~ Moved to later version, 
-- creat-camera-page
-- view camera page
-- ✔update readme with build imsyructions
+- One-way-web-rtc
+- Comment  page components
+- Use `<Link>` component for links
+- Add site link on home page
 
 
 
