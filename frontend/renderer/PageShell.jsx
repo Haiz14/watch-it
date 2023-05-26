@@ -25,17 +25,14 @@ function PageShell({ pageContext, children }) {
             <Sidebar>
               <button onClick={handleSidebarButtonClick}>X</button>
               <Logo />
-              <Link className="navitem" href="/">
-                Home
-              </Link>
-              <Link className="navitem" href="/about">
-                About
-              </Link>
               <Link className="navitem" href="/create">
                 Create
               </Link>
-              <Link className="navitem" href="/view">
-                View
+              <Link className="navitem" href="/">
+                Usage
+              </Link>
+              <Link className="navitem" href="/about">
+                About
               </Link>
             </Sidebar>
         ) : (
