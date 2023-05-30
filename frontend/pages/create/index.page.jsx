@@ -4,7 +4,7 @@ export { Page };
 
 function Page() {
   const [peer, setPeer] = useState(null);
-  const [peerId, setPeerId] = useState('');
+  let [peerId, setPeerId] = useState('');
   const [remotePeerId, setRemotePeerId] = useState('');
   const [conn, setConn] = useState(null);
   const [localStream, setLocalStream] = useState(null);
@@ -15,17 +15,28 @@ function Page() {
   const remoteVideo = useRef();
 
   useEffect(() => {
+      peerId= localStorage.getItem('peerId');
+  console.log("peer id is: ",peerId)
+
     const init = async () => {
       const stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
       setLocalStream(stream);
       localVideo.current.srcObject = stream;
 
-      const { default: Peer } = await import('peerjs');
-      const peer = new Peer({ debug: 2 });
+        const { default: Peer } = await import('peerjs');
+    let peer;
+    if (peerId === null){
+      peer = new Peer({ debug: 2 });
+    }
+    else{ 
+      peer = new Peer(peerId);
+    }
+      
       setPeer(peer);
 
       peer.on('open', (id) => {
         setPeerId(id);
+        localStorage.setItem("peerId", id);
       });
 
       peer.on('call', (incomingCall) => {
